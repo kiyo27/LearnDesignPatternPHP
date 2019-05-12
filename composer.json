@@ -1,0 +1,17 @@
+{
+    "name": "kiyo27/learn-design-pattern-php",
+    "require": {
+        "phpunit/phpunit": "^8.1"
+    },
+    "authors": [
+        {
+            "name": "kiyo27",
+            "email": "19531773+kiyo27@users.noreply.github.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Test\\": "sample"
+        }
+    }
+}
