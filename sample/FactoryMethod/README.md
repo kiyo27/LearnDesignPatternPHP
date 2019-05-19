@@ -65,6 +65,9 @@ class IDCard extends Product {
     }
 }
 
+/**
+ * IDCardクラスを生成するFactory
+ **/
 class IDCardFactory extends Factory {
     private $owners;
 

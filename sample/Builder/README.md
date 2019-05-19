@@ -35,6 +35,9 @@ abstract class Builder {
     abstract public function close();
 }
 
+/**
+ * Builderクラスを操作するDirector
+ */
 class Director {
     private $builder;
 
