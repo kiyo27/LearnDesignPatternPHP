@@ -1,154 +1,86 @@
 <?php
 
-/**
- * AbstractFactoryクラス
- * 
- *  AbstractProductのオブジェクトを生成するオペレーションのインターフェースを宣言する
- */
-interface AbstractFactory {
-    public function createButton();
-    public function createWindow();
-}
+abstract class Entry {
+    abstract public function getName();
+    abstract public function getSize();
 
-/**
- * ConcreteFactoryDB
- * 
- *  ConcreteProductオブジェクトを生成するオペレーションを実装する
- */
-class ConcreteFactoryWindows implements AbstractFactory {
-    /**
-     * インターフェースを実装
-     */
-    public function createButton() {
-        return new ConcreteProductWindowsButton();
+    public function add($entry) {
+        throw new Exception();
     }
 
-    /**
-     * インターフェースを実装
-     */
-    public function createWindow() {
-        return new ConcreteProductWindowsWindow();
+    abstract public function printList($prefix = null);
+
+    public function toString() {
+        return getName() . " (" . getSize() . ")";
     }
 }
 
-/**
- * ConcreteFactoryMock
- * 
- *  ConcreteProductオブジェクトを生成するオペレーションを実装する
- */
-class ConcreteFactoryMac implements AbstractFactory {
-    /**
-     * インターフェースを実装
-     */
-    public function createButton() {
-        return new ConcreteProductMacButton();
+class File extends Entry {
+    private $name;
+    private $size;
+
+    public function __construct($name, $size) {
+        $this->name = $name;
+        $this->size = $size;
     }
 
-    /**
-     * インターフェースを実装
-     */
-    public function createWindow() {
-        return new ConcreteProductMacWindow();
+    public function getName() {
+        return $this->name;
     }
-}
 
-/**
- * AbstractProductクラス
- * 
- * 部品ごとにインターフェースを宣言する
- */
+    public function getSize() {
+        return $this->size;
+    }
 
-/**
- * AbstractProductクラスに相当
- * 
- * 部品: Button
- */
-interface AbstractProductButton {
-    public function press();
-}
-
-/**
- * AbstractProductクラスに相当
- * 
- * 部品: Window
- */
-interface AbstractProductWindow {
-    public function open();
-}
-
-/**
- * ConcreteProductクラス
- * 
- *  - 対応するConcreteFactoryオブジェクトで生成される部品オブジェクトを定義する
- *  - AbstractProductクラスのインターフェースを実装する
- */
-
-/**
- * ConcreteProductクラスに相当
- * 
- * 対応するConcreteFactory: Windows
- */
-class ConcreteProductWindowsButton implements AbstractProductButton {
-    /**
-     * インターフェースを実装
-     */
-    public function press() {
-        echo 'Windows button is pressed.';
+    public function printList($prefix = null) {
+        echo $prefix . "/" . $this->name;
+        echo "<br>";
     }
 }
 
-/**
- * ConcreteProductクラスに相当
- * 
- * 対応するConcreteFactory: Windows
- */
-class ConcreteProductWindowsWindow implements AbstractProductWindow {
-    /**
-     * インターフェースを実装
-     */
-    public function open() {
-        echo 'Windows window open.';
+
+class Composite extends Entry {
+    private $name;
+    private $directory = array();
+
+    public function __construct($name) {
+        $this->name = $name;
+    }
+
+    public function getName() {
+        return  $this->name;
+    }
+
+    public function getSize() {
+        $size = 0;
+        foreach ($this->directory as $entry) {
+            $size = $entry->getSize();
+        }
+        return $size;
+    }
+
+    public function add($entry) {
+        $this->directory[] = $entry;
+        return $this;
+    }
+
+    public function printList($prefix = null) {
+        echo $prefix . "/" . $this->name;
+        echo "<br>";
+        foreach ($this->directory as $entry) {
+            $entry->printList($prefix . "/" . $this->name);
+        }
     }
 }
 
-/**
- * ConcreteProductクラスに相当
- * 
- * 対応するConcreteFactory: Mac
- */
-class ConcreteProductMacButton implements AbstractProductButton {
-    /**
-     * インターフェースを実装
-     */
-    public function press() {
-        echo 'Mac button is pressed.';
-    }
-}
 
-/**
- * ConcreteProductクラスに相当
- * 
- * 対応するConcreteFactory: Mac
- */
-class ConcreteProductMacWindow implements AbstractProductWindow {
-    /**
-     * インターフェースを実装
-     */
-    public function open() {
-        echo 'Mac window open.';
-    }
-}
+$rootdir = new Composite("root");
+$bindir = new Composite("bin");
+$tmpdir = new Composite("tmp");
+$usrdir = new Composite("usr");
 
-/**
- * クライアント
- */
+$rootdir->add($bindir);
+$rootdir->add($tmpdir);
 
-$factory = new ConcreteFactoryWindows();
-
-$button = $factory->createButton();
-$button->press();
-
-echo "<br>";
-
-$window = $factory->createWindow();
-$window->open();
+$bindir->add(new File("vi", 10000));
+$rootdir->printList();
