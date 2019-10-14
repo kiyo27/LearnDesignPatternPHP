@@ -1,154 +1,93 @@
 <?php
-
-/**
- * AbstractFactoryクラス
- * 
- *  AbstractProductのオブジェクトを生成するオペレーションのインターフェースを宣言する
- */
-interface AbstractFactory {
-    public function createButton();
-    public function createWindow();
+abstract class Builder {
+    abstract public function makeTitle($title);
+    abstract public function makeString($str);
+    abstract public function makeItems($items);
+    abstract public function close();
 }
 
-/**
- * ConcreteFactoryDB
- * 
- *  ConcreteProductオブジェクトを生成するオペレーションを実装する
- */
-class ConcreteFactoryWindows implements AbstractFactory {
-    /**
-     * インターフェースを実装
-     */
-    public function createButton() {
-        return new ConcreteProductWindowsButton();
+class Director {
+    private $builder;
+
+    public function __construct(Builder $builder) {
+        $this->builder = $builder;
     }
 
-    /**
-     * インターフェースを実装
-     */
-    public function createWindow() {
-        return new ConcreteProductWindowsWindow();
+    public function construct() {
+        $this->builder->makeTitle('Greeting');
+        $this->builder->makeString('朝から昼にかけて');
+        $this->builder->close();
     }
 }
 
-/**
- * ConcreteFactoryMock
- * 
- *  ConcreteProductオブジェクトを生成するオペレーションを実装する
- */
-class ConcreteFactoryMac implements AbstractFactory {
-    /**
-     * インターフェースを実装
-     */
-    public function createButton() {
-        return new ConcreteProductMacButton();
+class TextBuilder extends Builder {
+    private $buffer;
+
+    public function makeTitle($title) {
+        $this->buffer = "=============================\n";
+        $this->buffer .= "『" . $title . "』\n";
+        $this->buffer .= "\n";
     }
 
-    /**
-     * インターフェースを実装
-     */
-    public function createWindow() {
-        return new ConcreteProductMacWindow();
+    public function makeString($str) {
+        $this->buffer .= '■' . $str . "\n";
+        $this->buffer .= "\n";
     }
-}
 
-/**
- * AbstractProductクラス
- * 
- * 部品ごとにインターフェースを宣言する
- */
+    public function makeItems($items) {
+        for ($i=0; $i<count($items); $i++) {
+            $this->buffer .= "・" . $items[$i] . "\n";
+        }
+        $this->buffer .= "\n";
+    }
 
-/**
- * AbstractProductクラスに相当
- * 
- * 部品: Button
- */
-interface AbstractProductButton {
-    public function press();
-}
+    public function close() {
+        $this->buffer .= "=============================\n";
+    }
 
-/**
- * AbstractProductクラスに相当
- * 
- * 部品: Window
- */
-interface AbstractProductWindow {
-    public function open();
-}
-
-/**
- * ConcreteProductクラス
- * 
- *  - 対応するConcreteFactoryオブジェクトで生成される部品オブジェクトを定義する
- *  - AbstractProductクラスのインターフェースを実装する
- */
-
-/**
- * ConcreteProductクラスに相当
- * 
- * 対応するConcreteFactory: Windows
- */
-class ConcreteProductWindowsButton implements AbstractProductButton {
-    /**
-     * インターフェースを実装
-     */
-    public function press() {
-        echo 'Windows button is pressed.';
+    public function getResult() {
+        return $this->buffer;
     }
 }
 
-/**
- * ConcreteProductクラスに相当
- * 
- * 対応するConcreteFactory: Windows
- */
-class ConcreteProductWindowsWindow implements AbstractProductWindow {
-    /**
-     * インターフェースを実装
-     */
-    public function open() {
-        echo 'Windows window open.';
+class HTMLBuilder extends Builder {
+    private $filename;
+    private $writer;
+
+    public function makeTitle($title) {
+        $this->filename = $title . ".html";
+        try {
+            $this->writer = fopen(dirname(__FILE__) . "\\" . $this->filename,"w");
+        } catch (Exception $e) {
+            echo $e;
+        }
+        fwrite($this->writer, "<html><head><title>" . $title . "</title></head><body>");
+        fwrite($this->writer, "<h1>" . $title . "</h1>");
+    }
+
+    public function makeString($str) {
+        fwrite($this->writer, "<p>" . $str . "</p>");
+    }
+
+    public function makeItems($items) {
+        fwrite($this->writer, "<ul>");
+        for ($i=0; $i<count($items); $i++) {
+            fwrite($this->writer, "<li>" . $items[i] . "</li>");
+        }
+        fwrite($this->writer, "</ul>");
+    }
+
+    public function close() {
+        fwrite($this->writer, "</body></html>");
+        fclose($this->writer);
+    }
+
+    public function getResult() {
+        return $this->filename;
     }
 }
 
-/**
- * ConcreteProductクラスに相当
- * 
- * 対応するConcreteFactory: Mac
- */
-class ConcreteProductMacButton implements AbstractProductButton {
-    /**
-     * インターフェースを実装
-     */
-    public function press() {
-        echo 'Mac button is pressed.';
-    }
-}
-
-/**
- * ConcreteProductクラスに相当
- * 
- * 対応するConcreteFactory: Mac
- */
-class ConcreteProductMacWindow implements AbstractProductWindow {
-    /**
-     * インターフェースを実装
-     */
-    public function open() {
-        echo 'Mac window open.';
-    }
-}
-
-/**
- * クライアント
- */
-
-$factory = new ConcreteFactoryWindows();
-
-$button = $factory->createButton();
-$button->press();
-
-echo "<br>";
-
-$window = $factory->createWindow();
-$window->open();
+$textbuilder = new HTMLBuilder();
+$director = new Director($textbuilder);
+$director->construct();
+$result = $textbuilder->getResult();
