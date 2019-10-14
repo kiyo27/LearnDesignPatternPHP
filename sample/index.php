@@ -1,93 +1,86 @@
 <?php
-abstract class Builder {
-    abstract public function makeTitle($title);
-    abstract public function makeString($str);
-    abstract public function makeItems($items);
-    abstract public function close();
-}
 
-class Director {
-    private $builder;
+abstract class Entry {
+    abstract public function getName();
+    abstract public function getSize();
 
-    public function __construct(Builder $builder) {
-        $this->builder = $builder;
+    public function add($entry) {
+        throw new Exception();
     }
 
-    public function construct() {
-        $this->builder->makeTitle('Greeting');
-        $this->builder->makeString('朝から昼にかけて');
-        $this->builder->close();
+    abstract public function printList($prefix = null);
+
+    public function toString() {
+        return getName() . " (" . getSize() . ")";
     }
 }
 
-class TextBuilder extends Builder {
-    private $buffer;
+class File extends Entry {
+    private $name;
+    private $size;
 
-    public function makeTitle($title) {
-        $this->buffer = "=============================\n";
-        $this->buffer .= "『" . $title . "』\n";
-        $this->buffer .= "\n";
+    public function __construct($name, $size) {
+        $this->name = $name;
+        $this->size = $size;
     }
 
-    public function makeString($str) {
-        $this->buffer .= '■' . $str . "\n";
-        $this->buffer .= "\n";
+    public function getName() {
+        return $this->name;
     }
 
-    public function makeItems($items) {
-        for ($i=0; $i<count($items); $i++) {
-            $this->buffer .= "・" . $items[$i] . "\n";
+    public function getSize() {
+        return $this->size;
+    }
+
+    public function printList($prefix = null) {
+        echo $prefix . "/" . $this->name;
+        echo "<br>";
+    }
+}
+
+
+class Composite extends Entry {
+    private $name;
+    private $directory = array();
+
+    public function __construct($name) {
+        $this->name = $name;
+    }
+
+    public function getName() {
+        return  $this->name;
+    }
+
+    public function getSize() {
+        $size = 0;
+        foreach ($this->directory as $entry) {
+            $size = $entry->getSize();
         }
-        $this->buffer .= "\n";
+        return $size;
     }
 
-    public function close() {
-        $this->buffer .= "=============================\n";
+    public function add($entry) {
+        $this->directory[] = $entry;
+        return $this;
     }
 
-    public function getResult() {
-        return $this->buffer;
+    public function printList($prefix = null) {
+        echo $prefix . "/" . $this->name;
+        echo "<br>";
+        foreach ($this->directory as $entry) {
+            $entry->printList($prefix . "/" . $this->name);
+        }
     }
 }
 
-class HTMLBuilder extends Builder {
-    private $filename;
-    private $writer;
 
-    public function makeTitle($title) {
-        $this->filename = $title . ".html";
-        try {
-            $this->writer = fopen(dirname(__FILE__) . "\\" . $this->filename,"w");
-        } catch (Exception $e) {
-            echo $e;
-        }
-        fwrite($this->writer, "<html><head><title>" . $title . "</title></head><body>");
-        fwrite($this->writer, "<h1>" . $title . "</h1>");
-    }
+$rootdir = new Composite("root");
+$bindir = new Composite("bin");
+$tmpdir = new Composite("tmp");
+$usrdir = new Composite("usr");
 
-    public function makeString($str) {
-        fwrite($this->writer, "<p>" . $str . "</p>");
-    }
+$rootdir->add($bindir);
+$rootdir->add($tmpdir);
 
-    public function makeItems($items) {
-        fwrite($this->writer, "<ul>");
-        for ($i=0; $i<count($items); $i++) {
-            fwrite($this->writer, "<li>" . $items[i] . "</li>");
-        }
-        fwrite($this->writer, "</ul>");
-    }
-
-    public function close() {
-        fwrite($this->writer, "</body></html>");
-        fclose($this->writer);
-    }
-
-    public function getResult() {
-        return $this->filename;
-    }
-}
-
-$textbuilder = new HTMLBuilder();
-$director = new Director($textbuilder);
-$director->construct();
-$result = $textbuilder->getResult();
+$bindir->add(new File("vi", 10000));
+$rootdir->printList();
