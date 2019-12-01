@@ -1,12 +1,11 @@
 <?php
 require('vendor/autoload.php');
 use PHPUnit\Framework\TestCase;
-use Test\Display;
-use Test\StringDisplay;
+use Display\CountDisplay;
 
 class UserTest extends TestCase {
-    public function testDecorator() {
-        $b = new StringDisplay("Hello, world.");
-        $this->assertIsInt($b->getRows());
+    public function testExample() {
+        $expected = 'hoge';
+        $this->assertEquals($expected, 'hoge');
     }
 }
