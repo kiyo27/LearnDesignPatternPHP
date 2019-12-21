@@ -1,0 +1,4 @@
+# Strategy
+![img](StrategyPatternClassDiagram.svg)
+
+## 
