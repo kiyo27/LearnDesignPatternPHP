@@ -4,7 +4,7 @@ use Observer\Cart;
 use Observer\LoggingListener;
 use Observer\PresentListener;
 
-require('vendor/autoload.php');
+require('../vendor/autoload.php');
 
 function createCart()
 {
