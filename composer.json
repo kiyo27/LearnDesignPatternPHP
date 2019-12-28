@@ -13,7 +13,8 @@
             "Facade\\": "Facade",
             "Factory\\": "Factory",
             "Flyweight\\": "Flyweight",
-            "Iterator\\": "Iterator"
+            "Iterator\\": "Iterator",
+            "Mediator\\": "Mediator"
         }
     },
     "require-dev": {
