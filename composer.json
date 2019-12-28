@@ -16,7 +16,8 @@
             "Iterator\\": "Iterator",
             "Mediator\\": "Mediator",
             "Memento\\": "Memento",
-            "Prototype\\": "Prototype"
+            "Prototype\\": "Prototype",
+            "Proxy\\": "proxy"
         }
     },
     "require-dev": {
