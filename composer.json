@@ -21,7 +21,8 @@
             "Singleton\\": "Singleton",
             "Strategy\\": "Strategy",
             "TemplateMethod\\": "TemplateMethod",
-            "Visitor\\": "Visitor"
+            "Visitor\\": "Visitor",
+            "State\\": "State"
         }
     },
     "require-dev": {
