@@ -17,7 +17,8 @@
             "Mediator\\": "Mediator",
             "Memento\\": "Memento",
             "Prototype\\": "Prototype",
-            "Proxy\\": "proxy"
+            "Proxy\\": "proxy",
+            "Singleton\\": "Singleton"
         }
     },
     "require-dev": {
