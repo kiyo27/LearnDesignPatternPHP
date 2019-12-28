@@ -12,7 +12,8 @@
             "Decorator\\": "Decorator",
             "Facade\\": "Facade",
             "Factory\\": "Factory",
-            "Flyweight\\": "Flyweight"
+            "Flyweight\\": "Flyweight",
+            "Iterator\\": "Iterator"
         }
     },
     "require-dev": {
