@@ -9,7 +9,8 @@
             "ChainOfResponsibility\\": "ChainOfResponsibility",
             "Command\\": "Command",
             "Composite\\": "Composite",
-            "Decorator\\": "Decorator"
+            "Decorator\\": "Decorator",
+            "Facade\\": "Facade"
         }
     },
     "require-dev": {
