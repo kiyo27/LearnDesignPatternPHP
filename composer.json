@@ -5,7 +5,8 @@
             "AbstractFactory\\": "AbstractFactory",
             "Adapter\\": "Adapter",
             "Bridge\\": "Bridge",
-            "Builder\\": "builder"
+            "Builder\\": "builder",
+            "ChainOfResponsibility\\": "ChainOfResponsibility"
         }
     },
     "require-dev": {
