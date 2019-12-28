@@ -7,7 +7,8 @@
             "Bridge\\": "Bridge",
             "Builder\\": "builder",
             "ChainOfResponsibility\\": "ChainOfResponsibility",
-            "Command\\": "Command"
+            "Command\\": "Command",
+            "Composite\\": "Composite"
         }
     },
     "require-dev": {
