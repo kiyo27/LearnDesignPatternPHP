@@ -4,7 +4,8 @@
             "Observer\\": "Observer",
             "AbstractFactory\\": "AbstractFactory",
             "Adapter\\": "Adapter",
-            "Bridge\\": "Bridge"
+            "Bridge\\": "Bridge",
+            "Builder\\": "builder"
         }
     },
     "require-dev": {
