@@ -19,7 +19,8 @@
             "Prototype\\": "Prototype",
             "Proxy\\": "proxy",
             "Singleton\\": "Singleton",
-            "Strategy\\": "Strategy"
+            "Strategy\\": "Strategy",
+            "TemplateMethod\\": "TemplateMethod"
         }
     },
     "require-dev": {
