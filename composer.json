@@ -12,7 +12,8 @@
     "autoload": {
         "psr-4": {
             "Observer\\": "Observer",
-            "AbstractFactory\\": "AbstractFactory"
+            "AbstractFactory\\": "AbstractFactory",
+            "Adapter\\": "Adapter"
         }
     }
 }
