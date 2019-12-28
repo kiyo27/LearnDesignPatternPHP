@@ -14,7 +14,8 @@
             "Factory\\": "Factory",
             "Flyweight\\": "Flyweight",
             "Iterator\\": "Iterator",
-            "Mediator\\": "Mediator"
+            "Mediator\\": "Mediator",
+            "Memento\\": "Memento"
         }
     },
     "require-dev": {
