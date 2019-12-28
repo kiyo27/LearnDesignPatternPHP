@@ -18,7 +18,8 @@
             "Memento\\": "Memento",
             "Prototype\\": "Prototype",
             "Proxy\\": "proxy",
-            "Singleton\\": "Singleton"
+            "Singleton\\": "Singleton",
+            "Strategy\\": "Strategy"
         }
     },
     "require-dev": {
