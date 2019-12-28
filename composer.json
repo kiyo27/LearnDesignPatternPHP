@@ -15,7 +15,8 @@
             "Flyweight\\": "Flyweight",
             "Iterator\\": "Iterator",
             "Mediator\\": "Mediator",
-            "Memento\\": "Memento"
+            "Memento\\": "Memento",
+            "Prototype\\": "Prototype"
         }
     },
     "require-dev": {
