@@ -6,7 +6,8 @@
             "Adapter\\": "Adapter",
             "Bridge\\": "Bridge",
             "Builder\\": "builder",
-            "ChainOfResponsibility\\": "ChainOfResponsibility"
+            "ChainOfResponsibility\\": "ChainOfResponsibility",
+            "Command\\": "Command"
         }
     },
     "require-dev": {
