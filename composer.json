@@ -20,7 +20,8 @@
             "Proxy\\": "proxy",
             "Singleton\\": "Singleton",
             "Strategy\\": "Strategy",
-            "TemplateMethod\\": "TemplateMethod"
+            "TemplateMethod\\": "TemplateMethod",
+            "Visitor\\": "Visitor"
         }
     },
     "require-dev": {
