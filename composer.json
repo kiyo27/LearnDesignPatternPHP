@@ -8,7 +8,8 @@
             "Builder\\": "builder",
             "ChainOfResponsibility\\": "ChainOfResponsibility",
             "Command\\": "Command",
-            "Composite\\": "Composite"
+            "Composite\\": "Composite",
+            "Decorator\\": "Decorator"
         }
     },
     "require-dev": {
