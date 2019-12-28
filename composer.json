@@ -11,7 +11,8 @@
             "Composite\\": "Composite",
             "Decorator\\": "Decorator",
             "Facade\\": "Facade",
-            "Factory\\": "Factory"
+            "Factory\\": "Factory",
+            "Flyweight\\": "Flyweight"
         }
     },
     "require-dev": {
